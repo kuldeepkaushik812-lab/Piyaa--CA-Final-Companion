@@ -28,8 +28,11 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
+          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
           npm cache clean --force
           npm install --force
+          npm install @tailwindcss/oxide --save-dev --force
           npm install @rollup/rollup-win32-x64-msvc --save-dev --force
           npm install lightningcss lightningcss-win32-x64-msvc --save-dev --force
 
