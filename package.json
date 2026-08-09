@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "CA Final Companion App - Piyaa",
   "author": "Piyaa",
-  "main": "electron/main.js",
+  "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
@@ -24,6 +24,9 @@
     "files": [
       "dist/**/*",
       "electron/**/*",
+      "electron/*",
+      "electron/main.cjs",
+      "electron/preload.cjs",
       "package.json"
     ],
     "win": {
@@ -33,9 +36,7 @@
       ]
     },
     "publish": {
-      "provider": "github",
-      "owner": "YOUR_GITHUB_USERNAME",
-      "repo": "YOUR_GITHUB_REPO"
+      "provider": "github"
     }
   },
   "dependencies": {
@@ -43,6 +44,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "dotenv": "^17.2.3",
+    "electron-updater": "^6.3.9",
     "exceljs": "^4.4.0",
     "express": "^4.21.2",
     "file-saver": "^2.0.5",
@@ -66,6 +68,8 @@
     "@types/file-saver": "^2.0.7",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
     "esbuild": "^0.25.0",
     "sharp": "^0.35.3",
     "tailwindcss": "^4.1.14",

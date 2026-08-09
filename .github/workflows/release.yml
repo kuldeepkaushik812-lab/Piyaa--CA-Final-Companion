@@ -17,11 +17,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Bring Files to Root Directory (If in Subfolder)
+        shell: pwsh
+        run: |
+          $subfolder = Get-ChildItem -Directory | Where-Object { $_.Name -ne '.github' } | Select-Object -First 1
+          if ($subfolder -and (Test-Path "$($subfolder.FullName)\package.json")) {
+              Write-Host "Moving files from $($subfolder.Name) to root..."
+              Move-Item "$($subfolder.FullName)\*" . -Force
+              Remove-Item $subfolder.FullName -Recurse -Force
+          }
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
