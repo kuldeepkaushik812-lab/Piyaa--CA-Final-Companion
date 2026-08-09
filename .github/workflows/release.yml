@@ -16,18 +16,8 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Smart Folder Fixer (Move files to root)
-        shell: pwsh
-        run: |
-          $subfolder = Get-ChildItem -Directory | Select-Object -First 1
-          if ($subfolder -and (Test-Path "$($subfolder.FullName)\package.json")) {
-              Write-Host "Moving files from $($subfolder.Name) to root..."
-              Move-Item "$($subfolder.FullName)\*" . -Force
-              Remove-Item $subfolder.FullName -Recurse -Force
-          }
-
       - name: Install Dependencies
-        run: npm install
+        run: npm install --force
 
       - name: Create secret .env file
         shell: bash
