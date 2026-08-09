@@ -1,0 +1,8 @@
+{
+  "name": "Remix CA Final Study Companion",
+  "description": "Supportive AI companion and study planner for CA Final preparation with Hinglish chat, study timetable, daily motivation, and focus timer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
