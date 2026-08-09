@@ -1,15 +1,42 @@
 {
-  "name": "react-example",
+  "name": "piyaa-ca-final-companion",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "CA Final Companion App - Piyaa",
+  "author": "Piyaa",
+  "main": "electron/main.js",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "electron:build": "vite build && electron-builder --win",
     "start": "node dist/server.cjs",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
+  },
+  "build": {
+    "appId": "com.piyaa.cafinalcompanion",
+    "productName": "Piyaa - CA Final Companion",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "YOUR_GITHUB_USERNAME",
+      "repo": "YOUR_GITHUB_REPO"
+    }
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
