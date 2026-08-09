@@ -16,27 +16,30 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Dependencies
+      - name: Smart Folder Fixer (Move files to root)
+        shell: pwsh
         run: |
-          cd Piyaa--CA-Final-Companion
-          npm install
+          $subfolder = Get-ChildItem -Directory | Select-Object -First 1
+          if ($subfolder -and (Test-Path "$($subfolder.FullName)\package.json")) {
+              Write-Host "Moving files from $($subfolder.Name) to root..."
+              Move-Item "$($subfolder.FullName)\*" . -Force
+              Remove-Item $subfolder.FullName -Recurse -Force
+          }
+
+      - name: Install Dependencies
+        run: npm install
 
       - name: Create secret .env file
         shell: bash
         run: |
-          cd Piyaa--CA-Final-Companion
           cat << 'EOF' > .env
           ${{ secrets.ENV_FILE }}
           EOF
 
       - name: Build the Code
-        run: |
-          cd Piyaa--CA-Final-Companion
-          npm run build
+        run: npm run build
 
       - name: Build and Publish to GitHub Releases
-        run: |
-          cd Piyaa--CA-Final-Companion
-          npx electron-builder --win -p always
+        run: npx electron-builder --win -p always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
