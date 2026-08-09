@@ -20,11 +20,13 @@ jobs:
       - name: Bring Files to Root Directory (If in Subfolder)
         shell: pwsh
         run: |
-          $subfolder = Get-ChildItem -Directory | Where-Object { $_.Name -ne '.github' } | Select-Object -First 1
-          if ($subfolder -and (Test-Path "$($subfolder.FullName)\package.json")) {
+          if (-not (Test-Path "package.json")) {
+            $subfolder = Get-ChildItem -Directory | Where-Object { Test-Path "$($_.FullName)\package.json" } | Select-Object -First 1
+            if ($subfolder) {
               Write-Host "Moving files from $($subfolder.Name) to root..."
               Move-Item "$($subfolder.FullName)\*" . -Force
               Remove-Item $subfolder.FullName -Recurse -Force
+            }
           }
 
       - name: Setup Node.js
