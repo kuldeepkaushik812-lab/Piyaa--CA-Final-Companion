@@ -6,9 +6,6 @@ on:
 jobs:
   build-and-release:
     runs-on: windows-latest 
-    defaults:
-      run:
-        working-directory: ./Piyaa--CA-Final-Companion
 
     steps:
       - name: Checkout Code
@@ -20,19 +17,26 @@ jobs:
           node-version: '22'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          cd Piyaa--CA-Final-Companion
+          npm install
 
       - name: Create secret .env file
         shell: bash
         run: |
+          cd Piyaa--CA-Final-Companion
           cat << 'EOF' > .env
           ${{ secrets.ENV_FILE }}
           EOF
 
       - name: Build the Code
-        run: npm run build
+        run: |
+          cd Piyaa--CA-Final-Companion
+          npm run build
 
       - name: Build and Publish to GitHub Releases
-        run: npx electron-builder --win -p always
+        run: |
+          cd Piyaa--CA-Final-Companion
+          npx electron-builder --win -p always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
