@@ -6,9 +6,6 @@ on:
 jobs:
   build-and-release:
     runs-on: windows-latest 
-    defaults:
-      run:
-        working-directory: ./Piyaa--CA-Final-Companion
 
     steps:
       - name: Checkout Code
@@ -19,7 +16,17 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Clean Install Dependencies
+      - name: Bring Files to Root Directory
+        shell: pwsh
+        run: |
+          $subfolder = Get-ChildItem -Directory | Where-Object { $_.Name -ne '.github' } | Select-Object -First 1
+          if ($subfolder -and (Test-Path "$($subfolder.FullName)\package.json")) {
+              Write-Host "Moving files from $($subfolder.Name) to root..."
+              Move-Item "$($subfolder.FullName)\*" . -Force
+              Remove-Item $subfolder.FullName -Recurse -Force
+          }
+
+      - name: Install Dependencies
         run: |
           npm cache clean --force
           npm install --force
