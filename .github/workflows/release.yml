@@ -32,6 +32,7 @@ jobs:
           Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
           npm cache clean --force
           npm install --force
+          npm install electron --save-dev --force
           npm install @tailwindcss/oxide --save-dev --force
           npm install @rollup/rollup-win32-x64-msvc --save-dev --force
           npm install lightningcss lightningcss-win32-x64-msvc --save-dev --force
