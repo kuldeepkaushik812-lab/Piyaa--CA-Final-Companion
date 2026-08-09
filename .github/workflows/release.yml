@@ -33,15 +33,11 @@ jobs:
           }
 
       - name: Install Dependencies
+        shell: pwsh
         run: |
-          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
-          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
-          npm cache clean --force
-          npm install --force
-          npm install electron --save-dev --force
-          npm install @tailwindcss/oxide --save-dev --force
-          npm install @rollup/rollup-win32-x64-msvc --save-dev --force
-          npm install lightningcss lightningcss-win32-x64-msvc --save-dev --force
+          if (Test-Path "package-lock.json") { Remove-Item -Force package-lock.json }
+          if (Test-Path "bun.lock") { Remove-Item -Force bun.lock }
+          npm install
 
       - name: Create secret .env file
         shell: bash
