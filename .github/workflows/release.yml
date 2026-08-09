@@ -30,6 +30,7 @@ jobs:
         run: |
           npm cache clean --force
           npm install --force
+          npm install @rollup/rollup-win32-x64-msvc --save-dev --force
 
       - name: Create secret .env file
         shell: bash
